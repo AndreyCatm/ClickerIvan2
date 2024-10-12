@@ -1,0 +1,148 @@
+/* Основные стили для кликера */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #222;
+    color: #ddd;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.header img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.coins-counter {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Стили для кликера */
+.clicker-container {
+    margin-top: 50px;
+}
+
+.clicker-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #00ff00;
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
+    transition: box-shadow 0.3s;
+}
+
+.clicker-button:hover {
+    box-shadow: 0 0 25px 10px rgba(0, 255, 0, 0.7);
+}
+
+.clicker-button img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* Стили для рангов */
+.rank-info {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    width: 80%;
+    background-color: #444;
+    margin: 20px auto;
+    border-radius: 10px;
+    height: 20px;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background-color: #00ff00;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+
+/* Магазин */
+.shop {
+    display: none;
+}
+
+.shop-item {
+    margin: 20px;
+}
+
+.shop-item button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #333;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+}
+
+/* Стили для иконок */
+.footer-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.footer-icons img {
+    width: 60px;
+    cursor: pointer;
+    margin: 0 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5);
+    border-radius: 50%;
+}
+
+.footer-icons img:hover {
+    box-shadow: 0 0 15px 10px rgba(0, 255, 0, 0.7);
+}
+
+/* Переключатель темы */
+.theme-switcher {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 2px solid #333;
+    border-radius: 50%;
+}
+
+/* Загрузчик */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loader div {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    border-top-color: #00ff00;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
