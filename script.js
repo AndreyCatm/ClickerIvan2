@@ -1,42 +1,40 @@
-// Начальные данные
-let coins = 0;
-let clicks = 0;
-let isDarkTheme = false;
-let clickMultiplier = 1;
-let rankLevels = [1000, 5000, 20000, 50000];
-let currentRank = 0; // 0 = Bronze, 1 = Silver, 2 = Gold, 3 = Platinum
-let clickUpgradePrice = 50;
+let coins = 0; // Начальное количество монет
+let clickMultiplier = 1; // Множитель кликов
+let clickUpgradePrice = 50; // Начальная цена улучшения кликов
+let minerPrice = 1000; // Цена шахтера
+let rkPrice = 10000; // Цена для входа на РК
+let friendPrice = 30000; // Цена для нахождения друга
+let minerActive = false; // Флаг активности шахтера
+let friendActive = false; // Флаг активности друга
+let minerInterval; // Таймер для шахтера
+let friendInterval; // Таймер для друга
 
-let minerPrice = 1000;
-let rkPrice = 10000;
-let friendPrice = 30000;
-
-let minerActive = false;
-let friendActive = false;
-
-// Функция скрытия загрузчика
-function hideLoader() {
-    document.getElementById('loader').style.display = 'none';
+// Показать кликер
+function showClicker() {
+    document.querySelector('.clicker-container').style.display = 'block'; // Показываем кликер
+    document.querySelector('.shop').style.display = 'none'; // Скрываем магазин
 }
 
-// Обновление счётчика кликов
-function clickCoin() {
-    coins += clickMultiplier;
-    clicks++;
-    document.getElementById('coins').textContent = coins;
+// Показать магазин
+function showShop() {
+    document.querySelector('.clicker-container').style.display = 'none'; // Скрываем кликер
+    document.querySelector('.shop').style.display = 'block'; // Показываем магазин
+}
 
-    // Обновляем прогресс к следующему рангу
-    updateProgress();
+// Клик по монете
+function clickCoin() {
+    coins += clickMultiplier; // Увеличиваем количество монет
+    document.getElementById('coins').textContent = coins; // Обновляем отображение монет
 }
 
 // Покупка улучшения кликов
 function buyUpgrade() {
     if (coins >= clickUpgradePrice) {
-        coins -= clickUpgradePrice;
-        clickMultiplier++;
-        clickUpgradePrice = Math.floor(clickUpgradePrice * 2.5); // Цена увеличивается
-        document.getElementById('coins').textContent = coins;
-        document.getElementById('click-price').textContent = clickUpgradePrice + " монет";
+        coins -= clickUpgradePrice; // Уменьшаем количество монет
+        clickMultiplier++; // Увеличиваем множитель кликов
+        clickUpgradePrice = Math.floor(clickUpgradePrice * 2.5); // Увеличиваем цену
+        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+        document.getElementById('click-price').textContent = clickUpgradePrice + " монет"; // Обновляем цену
     } else {
         alert("Недостаточно монет!");
     }
@@ -45,21 +43,29 @@ function buyUpgrade() {
 // Покупка шахтера
 function buyMiner() {
     if (coins >= minerPrice) {
-        coins -= minerPrice;
-        document.getElementById('coins').textContent = coins;
-        minerActive = true;
-        document.getElementById('miner-timer').style.display = 'block';
-        startMinerTimer();
+        coins -= minerPrice; // Уменьшаем количество монет
+        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+        minerActive = true; // Активируем шахтера
+        document.getElementById('miner-timer').style.display = 'block'; // Показываем таймер шахтера
+        startMinerTimer(); // Запускаем таймер для шахтера
     } else {
         alert("Недостаточно монет!");
     }
 }
 
+// Таймер для шахтера
+function startMinerTimer() {
+    minerInterval = setInterval(() => {
+        coins += 1500; // Шахтер дает 1500 монет
+        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+    }, 30000); // Каждые 30 секунд
+}
+
 // Покупка РК
 function buyRK() {
     if (coins >= rkPrice) {
-        coins -= rkPrice;
-        document.getElementById('coins').textContent = coins;
+        coins -= rkPrice; // Уменьшаем количество монет
+        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
         document.getElementById('friend-upgrade').style.display = 'block'; // Показываем опцию "Найти друга"
     } else {
         alert("Недостаточно монет!");
@@ -69,74 +75,37 @@ function buyRK() {
 // Покупка друга
 function buyFriend() {
     if (coins >= friendPrice) {
-        coins -= friendPrice;
-        document.getElementById('coins').textContent = coins;
-        friendActive = true;
-        document.getElementById('friend-timer').style.display = 'block';
-        startFriendTimer();
+        coins -= friendPrice; // Уменьшаем количество монет
+        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+        friendActive = true; // Активируем друга
+        document.getElementById('friend-timer').style.display = 'block'; // Показываем таймер друга
+        startFriendTimer(); // Запускаем таймер для друга
     } else {
         alert("Недостаточно монет!");
     }
 }
 
-function startMinerTimer() {
-    let minerTime = 30;
-    setInterval(function() {
-        if (minerActive) {
-            if (minerTime <= 0) {
-                coins += 1500;
-                document.getElementById('coins').textContent = coins;
-                minerTime = 30; // Сброс таймера
-            }
-            document.getElementById('miner-timer').textContent = `⛏ Шахтер: ${minerTime}с`;
-            minerTime--;
-        }
-    }, 1000);
-}
-
-// Таймер для друга (выдача 5K монет каждые 1.5 минуты)
+// Таймер для друга
 function startFriendTimer() {
-    let friendTime = 90;
-    setInterval(function() {
-        if (friendActive) {
-            if (friendTime <= 0) {
-                coins += 5000;
-                document.getElementById('coins').textContent = coins;
-                friendTime = 90; // Сброс таймера
-            }
-            document.getElementById('friend-timer').textContent = `👤 Друг: ${friendTime}с`;
-            friendTime--;
-        }
-    }, 1000);
+    friendInterval = setInterval(() => {
+        coins += 5000; // Друг дает 5000 монет
+        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+    }, 90000); // Каждые 1.5 минуты
 }
 
-// Обновление прогресса к новому рангу
-function updateProgress() {
-    let clicksToNextRank = rankLevels[currentRank] - clicks;
-    if (clicksToNextRank <= 0) {
-        levelUpRank();
-    } else {
-        document.getElementById('progress-text').textContent = `Кликов до повышения: ${clicksToNextRank}`;
-        let progressPercent = (clicks / rankLevels[currentRank]) * 100;
-        document.getElementById('progress').style.width = progressPercent + '%';
-    }
+// Загрузка кликера
+window.onload = function() {
+    hideLoader();
+};
+
+// Скрытие загрузчика
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
 }
 
-// Повышение ранга
-function levelUpRank() {
-    currentRank++;
-    clicks = 0; // Сброс кликов
-    if (currentRank === 1) {
-        document.getElementById('rank').textContent = "Silver 🥈";
-    } else if (currentRank === 2) {
-        document.getElementById('rank').textContent = "Gold 🥇";
-    } else if (currentRank === 3) {
-        document.getElementById('rank').textContent = "Platinum 🏆";
-    }
-    alert("Поздравляем, вы повысили ранг!");
-}
+// Переключение темы
+let isDarkTheme = false; // Флаг темной темы
 
-// Переключение между тёмной и светлой темой
 function toggleTheme() {
     if (isDarkTheme) {
         document.body.style.backgroundColor = '#f0f0f0'; // Светлая тема
@@ -148,7 +117,3 @@ function toggleTheme() {
         isDarkTheme = true;
     }
 }
-
-// Скрытие загрузчика после загрузки страницы
-window.onload = hideLoader;
-
