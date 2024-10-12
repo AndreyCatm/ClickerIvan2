@@ -3,9 +3,16 @@ let coins = 0;
 let clicks = 0;
 let isDarkTheme = false;
 let clickMultiplier = 1;
-let rankLevels = [10000, 25000, 50000, 100000];
+let rankLevels = [1000, 5000, 20000, 50000];
 let currentRank = 0; // 0 = Bronze, 1 = Silver, 2 = Gold, 3 = Platinum
 let clickUpgradePrice = 50;
+
+let minerPrice = 1000;
+let rkPrice = 10000;
+let friendPrice = 30000;
+
+let minerActive = false;
+let friendActive = false;
 
 // Функция скрытия загрузчика
 function hideLoader() {
@@ -33,6 +40,71 @@ function buyUpgrade() {
     } else {
         alert("Недостаточно монет!");
     }
+}
+
+// Покупка шахтера
+function buyMiner() {
+    if (coins >= minerPrice) {
+        coins -= minerPrice;
+        document.getElementById('coins').textContent = coins;
+        minerActive = true;
+        document.getElementById('miner-timer').style.display = 'block';
+        startMinerTimer();
+    } else {
+        alert("Недостаточно монет!");
+    }
+}
+
+// Покупка РК
+function buyRK() {
+    if (coins >= rkPrice) {
+        coins -= rkPrice;
+        document.getElementById('coins').textContent = coins;
+        document.getElementById('friend-upgrade').style.display = 'block';
+    } else {
+        alert("Недостаточно монет!");
+    }
+}
+
+// Покупка друга
+function buyFriend() {
+    if (coins >= friendPrice) {
+        coins -= friendPrice;
+        document.getElementById('coins').textContent = coins;
+        friendActive = true;
+        document.getElementById('friend-timer').style.display = 'block';
+        startFriendTimer();
+    } else {
+        alert("Недостаточно монет!");
+    }
+}
+
+// Таймер для шахтера (выдача 1.5K монет каждые 30 секунд)
+function startMinerTimer() {
+    let minerTime = 30;
+    let minerInterval = setInterval(function() {
+        if (minerTime <= 0) {
+            coins += 1500;
+            document.getElementById('coins').textContent = coins;
+            minerTime = 30; // Сброс таймера
+        }
+        document.getElementById('miner-timer').textContent = `⛏ Шахтер: ${minerTime}с`;
+        minerTime--;
+    }, 1000);
+}
+
+// Таймер для друга (выдача 5K монет каждые 1.5 минуты)
+function startFriendTimer() {
+    let friendTime = 90;
+    let friendInterval = setInterval(function() {
+        if (friendTime <= 0) {
+            coins += 5000;
+            document.getElementById('coins').textContent = coins;
+            friendTime = 90; // Сброс таймера
+        }
+        document.getElementById('friend-timer').textContent = `👤 Друг: ${friendTime}с`;
+        friendTime--;
+    }, 1000);
 }
 
 // Обновление прогресса к новому рангу
@@ -64,23 +136,5 @@ function levelUpRank() {
 // Переключение между тёмной и светлой темой
 function toggleTheme() {
     if (isDarkTheme) {
-        document.body.style.backgroundColor = '#fff';
-        document.body.style.color = '#000';
-    } else {
-        document.body.style.backgroundColor = '#222';
-        document.body.style.color = '#ddd';
-    }
-    isDarkTheme = !isDarkTheme;
-}
+        document.body.style.backgroundColor = '#
 
-// Показать кликер
-function showClicker() {
-    document.querySelector('.clicker-container').style.display = 'block';
-    document.querySelector('.shop').style.display = 'none';
-}
-
-// Показать магазин
-function showShop() {
-    document.querySelector('.clicker-container').style.display = 'none';
-    document.querySelector('.shop').style.display = 'block';
-}
