@@ -24,7 +24,7 @@ function clickCoin() {
     coins += clickMultiplier;
     clicks++;
     document.getElementById('coins').textContent = coins;
-    
+
     // Обновляем прогресс к следующему рангу
     updateProgress();
 }
@@ -136,5 +136,13 @@ function levelUpRank() {
 // Переключение между тёмной и светлой темой
 function toggleTheme() {
     if (isDarkTheme) {
-        document.body.style.backgroundColor = '#
+        document.body.style.backgroundColor = '#f0f0f0'; // Светлая тема
+        document.body.style.color = '#000';
+        isDarkTheme = false;
+    } else {
+        document.body.style.backgroundColor = '#333'; // Тёмная тема
+        document.body.style.color = '#fff';
+        isDarkTheme = true;
+    }
+}
 
