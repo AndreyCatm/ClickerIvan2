@@ -60,7 +60,7 @@ function buyRK() {
     if (coins >= rkPrice) {
         coins -= rkPrice;
         document.getElementById('coins').textContent = coins;
-        document.getElementById('friend-upgrade').style.display = 'block';
+        document.getElementById('friend-upgrade').style.display = 'block'; // Показываем опцию "Найти друга"
     } else {
         alert("Недостаточно монет!");
     }
@@ -79,7 +79,6 @@ function buyFriend() {
     }
 }
 
-// Таймер для шахтера (выдача 1.5K монет каждые 30 секунд)
 function startMinerTimer() {
     let minerTime = 30;
     setInterval(function() {
