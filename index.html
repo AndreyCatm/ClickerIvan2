@@ -8,6 +8,9 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: white;
+            color: black;
+            transition: background-color 0.3s, color 0.3s;
         }
         .header {
             display: flex;
@@ -23,33 +26,51 @@
             font-size: 24px;
             font-weight: bold;
         }
-        .tabs {
-            margin: 20px 0;
+        .clicker-container {
+            margin-top: 50px;
         }
-        .tab-button {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin: 0 10px;
+        .clicker-button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #00ff00;
+            background-color: white;
             cursor: pointer;
-            border: none;
-            background-color: #f0f0f0;
+            box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
+            transition: box-shadow 0.3s;
         }
-        .active {
-            background-color: #dcdcdc;
+        .clicker-button:hover {
+            box-shadow: 0 0 25px 10px rgba(0, 255, 0, 0.7);
         }
-        .content {
-            display: none;
-        }
-        .content.active {
-            display: block;
+        .clicker-button img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
         }
         .footer-icons {
+            display: flex;
+            justify-content: center;
             margin-top: 40px;
         }
         .footer-icons img {
-            width: 50px;
+            width: 60px;
             cursor: pointer;
             margin: 0 20px;
+            box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5);
+            border-radius: 50%;
+        }
+        .footer-icons img:hover {
+            box-shadow: 0 0 15px 10px rgba(0, 255, 0, 0.7);
+        }
+        .theme-switcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 2px solid #333;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -61,53 +82,41 @@
         <span class="coins-counter" id="coins">0</span>
     </div>
 
-    <!-- Вкладки -->
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab('main')">Главная</button>
-        <button class="tab-button" onclick="openTab('shop')">Магазин</button>
-        <button class="tab-button" onclick="openTab('settings')">Настройки</button>
+    <!-- Кликер -->
+    <div class="clicker-container">
+        <button class="clicker-button" onclick="clickCoin()">
+            <img src="Ivan.png" alt="Кликер">
+        </button>
     </div>
 
-    <!-- Контент вкладок -->
-    <div id="main" class="content active">
-        <h2>Кликер</h2>
-        <img src="Ivan.png" alt="Иконка кликера" style="width: 100px; cursor: pointer;" onclick="clickCoin()">
-    </div>
-
-    <div id="shop" class="content">
-        <h2>Магазин</h2>
-        <p>Здесь можно прокачать кликер!</p>
-    </div>
-
-    <div id="settings" class="content">
-        <h2>Настройки</h2>
-        <p>Здесь будут настройки игры.</p>
-    </div>
-
-    <!-- Нижние иконки для навигации -->
+    <!-- Нижние иконки -->
     <div class="footer-icons">
-        <img src="Ivan.png" alt="Главная страница" onclick="openTab('main')">
-        <img src="shop.png" alt="Магазин" onclick="openTab('shop')">
+        <img src="Ivan.png" alt="Главная страница">
+        <img src="shop.png" alt="Магазин">
     </div>
+
+    <!-- Переключатель темы -->
+    <div class="theme-switcher" onclick="toggleTheme()">🌓</div>
 
     <!-- Скрипт -->
     <script>
         let coins = 0;
+        let isDarkTheme = false;
 
         function clickCoin() {
             coins++;
             document.getElementById('coins').textContent = coins;
         }
 
-        function openTab(tabName) {
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => content.classList.remove('active'));
-
-            const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => button.classList.remove('active'));
-
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+        function toggleTheme() {
+            if (isDarkTheme) {
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = 'black';
+            } else {
+                document.body.style.backgroundColor = '#333';
+                document.body.style.color = 'white';
+            }
+            isDarkTheme = !isDarkTheme;
         }
     </script>
 
