@@ -4,49 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кликер</title>
-    <link rel="stylesheet" href="style.css"> <!-- Подключение стилей -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div id="loader">Загрузка...</div> <!-- Элемент загрузки -->
-
-<div class="theme-switcher" onclick="toggleTheme()">🌓</div>
-
-<div class="clicker-container">
-    <h1>Кликер</h1>
-    <div id="coins">0</div>
-    <button onclick="clickCoin()" class="click-button" style="box-shadow: 0 0 10px green;">Кликни меня!</button>
-    <div id="rank-progress" style="width: 0%; height: 10px; background: green;"></div>
-</div>
-
-<div class="shop" style="display:none;">
-    <div class="shop-item">
-        <p>Увеличить клики: <span id="click-price">50 монет</span></p>
-        <button onclick="buyUpgrade()">Купить улучшение</button>
+    <!-- Загрузчик -->
+    <div id="loader">
+        <div></div>
     </div>
-    <div class="shop-item">
-        <p>Шахтер: <span id="miner-price">1000 монет</span></p>
-        <button onclick="buyMiner()">Купить шахтера</button>
-        <p id="miner-time" style="display:none;">30 секунд до выдачи</p>
-    </div>
-    <div class="shop-item" id="rk-upgrade" style="display:none;">
-        <p>Зайти на РК: <span id="rk-price">10000 монет</span></p>
-        <button onclick="buyRK()">Зайти на РК</button>
-    </div>
-    <div class="shop-item" id="friend-upgrade" style="display:none;">
-        <p>Найти друга: <span id="friend-price">30000 монет</span></p>
-        <button onclick="buyFriend()">Найти друга</button>
-        <p id="friend-time" style="display:none;">90 секунд до выдачи</p>
-    </div>
-</div>
 
-<!-- Вкладки для переключения -->
-<div class="tabs">
-    <button onclick="showClicker()">Главная</button>
-    <button onclick="showShop()">Магазин</button>
-</div>
+    <!-- Заголовок с количеством монет -->
+    <div class="header">
+        <img src="money.png" alt="Иконка монет">
+        <span class="coins-counter" id="coins">0</span>
+    </div>
 
-<script src="script.js"></script> <!-- Подключение скриптов -->
+    <!-- Кликер -->
+    <div class="clicker-container">
+        <button class="clicker-button" onclick="clickCoin()">
+            <img src="Ivan.png" alt="Кликер">
+        </button>
+    </div>
+
+    <!-- Магазин -->
+    <div class="shop">
+        <div class="shop-item">
+            <p>Увеличить клики: <span id="click-price">50 монет</span></p>
+            <button onclick="buyUpgrade()">Купить улучшение</button>
+        </div>
+        <div class="shop-item">
+            <p>Шахтер: <span id="miner-price">1000 монет</span></p>
+            <button onclick="buyMiner()">Купить шахтера</button>
+        </div>
+        <div class="shop-item" id="rk-upgrade" style="display:none;">
+            <p>Зайти на рк: <span id="rk-price">10000 монет</span></p>
+            <button onclick="buyRK()">Зайти на рк</button>
+        </div>
+        <div class="shop-item" id="friend-upgrade" style="display:none;">
+            <p>Найти друга: <span id="friend-price">30000 монет</span></p>
+            <button onclick="buyFriend()">Найти друга</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
 
