@@ -3,158 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кликер</title
+    <title>Кликер</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Основные стили для кликера */
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #222;
-            color: #ddd;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .header img {
-            width: 40px;
-            margin-right: 10px;
-        }
-
-        .coins-counter {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        /* Стили для кликера */
-        .clicker-container {
-            margin-top: 50px;
-        }
-
-        .clicker-button {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid #00ff00;
-            background-color: white;
-            cursor: pointer;
-            box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
-            transition: box-shadow 0.3s;
-        }
-
-        .clicker-button:hover {
-            box-shadow: 0 0 25px 10px rgba(0, 255, 0, 0.7);
-        }
-
-        .clicker-button img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-
-        /* Стили для рангов */
-        .rank-info {
-            font-size: 20px;
-            margin-top: 10px;
-        }
-
-        .progress-bar {
-            width: 80%;
-            background-color: #444;
-            margin: 20px auto;
-            border-radius: 10px;
-            height: 20px;
-        }
-
-        .progress {
-            width: 0%;
-            height: 100%;
-            background-color: #00ff00;
-            border-radius: 10px;
-            transition: width 0.3s;
-        }
-
-        /* Магазин */
-        .shop {
-            display: none;
-        }
-
-        .shop-item {
-            margin: 20px;
-        }
-
-        .shop-item button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #333;
-            color: #00ff00;
-            border: 2px solid #00ff00;
-        }
-
-        /* Стили для иконок */
-        .footer-icons {
-            display: flex;
-            justify-content: center;
-            margin-top: 40px;
-        }
-
-        .footer-icons img {
-            width: 60px;
-            cursor: pointer;
-            margin: 0 20px;
-            box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5);
-            border-radius: 50%;
-        }
-
-        .footer-icons img:hover {
-            box-shadow: 0 0 15px 10px rgba(0, 255, 0, 0.7);
-        }
-
-        /* Переключатель темы */
-        .theme-switcher {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            cursor: pointer;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 2px solid #333;
-            border-radius: 50%;
-        }
-
-        /* Загрузчик */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #loader div {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #fff;
-            border-radius: 50%;
-            border-top-color: #00ff00;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
 </head>
 <body onload="hideLoader()">
 
@@ -178,11 +28,11 @@
 
     <!-- Ранг и прогресс -->
     <div class="rank-info">
-        Ранг: <span id="rank">Bronze 🥉</span>
+        <span id="rank">Bronze 🥉</span>
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
-        <span id="progress-text">Кликов до повышения: 10000</span>
+        <span id="progress-text">Кликов до повышения: 1000</span>
     </div>
 
     <!-- Магазин -->
@@ -190,6 +40,18 @@
         <div class="shop-item">
             <p>Увеличить клики: <span id="click-price">50 монет</span></p>
             <button onclick="buyUpgrade()">Купить улучшение</button>
+        </div>
+        <div class="shop-item">
+            <p>Шахтер: <span id="miner-price">1000 монет</span></p>
+            <button onclick="buyMiner()">Купить шахтера</button>
+        </div>
+        <div class="shop-item" id="rk-upgrade" style="display:none;">
+            <p>Зайти на рк: <span id="rk-price">10000 монет</span></p>
+            <button onclick="buyRK()">Зайти на рк</button>
+        </div>
+        <div class="shop-item" id="friend-upgrade" style="display:none;">
+            <p>Найти друга: <span id="friend-price">30000 монет</span></p>
+            <button onclick="buyFriend()">Найти друга</button>
         </div>
     </div>
 
@@ -202,94 +64,13 @@
     <!-- Переключатель темы -->
     <div class="theme-switcher" onclick="toggleTheme()">🌓</div>
 
-    <script>
-        // Начальные данные
-        let coins = 0;
-        let clicks = 0;
-        let isDarkTheme = false;
-        let clickMultiplier = 1;
-        let rankLevels = [10000, 25000, 50000, 100000];
-        let currentRank = 0; // 0 = Bronze, 1 = Silver, 2 = Gold, 3 = Platinum
-        let clickUpgradePrice = 50;
+    <!-- Таймеры для шахтера и друга -->
+    <div id="timers" style="position:fixed; top:10px; left:10px;">
+        <span id="miner-timer" style="display:none;">⛏ Шахтер: 30с</span><br>
+        <span id="friend-timer" style="display:none;">👤 Друг: 1.5м</span>
+    </div>
 
-        // Функция скрытия загрузчика
-        function hideLoader() {
-            document.getElementById('loader').style.display = 'none';
-        }
-
-        // Обновление счётчика кликов
-        function clickCoin() {
-            coins += clickMultiplier;
-            clicks++;
-            document.getElementById('coins').textContent = coins;
-            
-            // Обновляем прогресс к следующему рангу
-            updateProgress();
-        }
-
-        // Покупка улучшения кликов
-        function buyUpgrade() {
-            if (coins >= clickUpgradePrice) {
-                coins -= clickUpgradePrice;
-                clickMultiplier++;
-                clickUpgradePrice = Math.floor(clickUpgradePrice * 2.5); // Цена увеличивается
-                document.getElementById('coins').textContent = coins;
-                document.getElementById('click-price').textContent = clickUpgradePrice + " монет";
-            } else {
-                alert("Недостаточно монет!");
-            }
-        }
-
-        // Обновление прогресса к новому рангу
-        function updateProgress() {
-            let clicksToNextRank = rankLevels[currentRank] - clicks;
-            if (clicksToNextRank <= 0) {
-                levelUpRank();
-            } else {
-                document.getElementById('progress-text').textContent = `Кликов до повышения: ${clicksToNextRank}`;
-                let progressPercent = (clicks / rankLevels[currentRank]) * 100;
-                document.getElementById('progress').style.width = progressPercent + '%';
-            }
-        }
-
-        // Повышение ранга
-        function levelUpRank() {
-            currentRank++;
-            clicks = 0; // Сброс кликов
-            if (currentRank === 1) {
-                document.getElementById('rank').textContent = "Silver 🥈";
-            } else if (currentRank === 2) {
-                document.getElementById('rank').textContent = "Gold 🥇";
-            } else if (currentRank === 3) {
-                document.getElementById('rank').textContent = "Platinum 🏆";
-            }
-            alert("Поздравляем, вы повысили ранг!");
-        }
-
-        // Переключение между тёмной и светлой темой
-        function toggleTheme() {
-            if (isDarkTheme) {
-                document.body.style.backgroundColor = '#fff';
-                document.body.style.color = '#000';
-            } else {
-                document.body.style.backgroundColor = '#222';
-                document.body.style.color = '#ddd';
-            }
-            isDarkTheme = !isDarkTheme;
-        }
-
-        // Показать кликер
-        function showClicker() {
-            document.querySelector('.clicker-container').style.display = 'block';
-            document.querySelector('.shop').style.display = 'none';
-        }
-
-        // Показать магазин
-        function showShop() {
-            document.querySelector('.clicker-container').style.display = 'none';
-            document.querySelector('.shop').style.display = 'block';
-        }
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
+
