@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кликер</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .header img {
+            width: 40px;
+            margin-right: 10px;
+        }
+        .coins-counter {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .tabs {
+            margin: 20px 0;
+        }
+        .tab-button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #f0f0f0;
+        }
+        .active {
+            background-color: #dcdcdc;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        .footer-icons {
+            margin-top: 40px;
+        }
+        .footer-icons img {
+            width: 50px;
+            cursor: pointer;
+            margin: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Заголовок с количеством монет -->
+    <div class="header">
+        <img src="money.png" alt="Иконка монет">
+        <span class="coins-counter" id="coins">0</span>
+    </div>
+
+    <!-- Вкладки -->
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab('main')">Главная</button>
+        <button class="tab-button" onclick="openTab('shop')">Магазин</button>
+        <button class="tab-button" onclick="openTab('settings')">Настройки</button>
+    </div>
+
+    <!-- Контент вкладок -->
+    <div id="main" class="content active">
+        <h2>Кликер</h2>
+        <img src="Ivan.png" alt="Иконка кликера" style="width: 100px; cursor: pointer;" onclick="clickCoin()">
+    </div>
+
+    <div id="shop" class="content">
+        <h2>Магазин</h2>
+        <p>Здесь можно прокачать кликер!</p>
+    </div>
+
+    <div id="settings" class="content">
+        <h2>Настройки</h2>
+        <p>Здесь будут настройки игры.</p>
+    </div>
+
+    <!-- Нижние иконки для навигации -->
+    <div class="footer-icons">
+        <img src="Ivan.png" alt="Главная страница" onclick="openTab('main')">
+        <img src="shop.png" alt="Магазин" onclick="openTab('shop')">
+    </div>
+
+    <!-- Скрипт -->
+    <script>
+        let coins = 0;
+
+        function clickCoin() {
+            coins++;
+            document.getElementById('coins').textContent = coins;
+        }
+
+        function openTab(tabName) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
