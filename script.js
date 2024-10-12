@@ -72,7 +72,6 @@ function buyMiner() {
         minerActive = true; // Активируем шахтера
         document.getElementById('miner-timer').style.display = 'block'; // Показываем таймер шахтера
         startMinerTimer(); // Запускаем таймер для шахтера
-        document.getElementById('miner-price').textContent = 'Куплен'; // Обновляем текст цены шахтера
     } else {
         alert("Недостаточно монет!");
     }
@@ -81,7 +80,6 @@ function buyMiner() {
 // Таймер для шахтера
 function startMinerTimer() {
     minerTimeLeft = 30; // Сбрасываем время
-    document.getElementById('miner-time').textContent = minerTimeLeft + " секунд до выдачи"; // Отображаем время
     minerInterval = setInterval(() => {
         minerTimeLeft--;
         document.getElementById('miner-time').textContent = minerTimeLeft + " секунд до выдачи"; // Обновляем время до выдачи
@@ -99,8 +97,7 @@ function buyRK() {
     if (coins >= rkPrice) {
         coins -= rkPrice; // Уменьшаем количество монет
         document.getElementById('coins').textContent = coins; // Обновляем отображение монет
-        document.getElementById('rk-upgrade').style.display = 'block'; // Показываем опцию "Зайти на РК"
-        document.getElementById('rk-price').textContent = 'Куплен'; // Обновляем текст цены РК
+        document.getElementById('friend-upgrade').style.display = 'block'; // Показываем опцию "Найти друга"
     } else {
         alert("Недостаточно монет!");
     }
@@ -114,7 +111,6 @@ function buyFriend() {
         friendActive = true; // Активируем друга
         document.getElementById('friend-timer').style.display = 'block'; // Показываем таймер друга
         startFriendTimer(); // Запускаем таймер для друга
-        document.getElementById('friend-price').textContent = 'Куплен'; // Обновляем текст цены друга
     } else {
         alert("Недостаточно монет!");
     }
@@ -123,7 +119,6 @@ function buyFriend() {
 // Таймер для друга
 function startFriendTimer() {
     friendTimeLeft = 90; // Сбрасываем время
-    document.getElementById('friend-time').textContent = friendTimeLeft + " секунд до выдачи"; // Отображаем время
     friendInterval = setInterval(() => {
         friendTimeLeft--;
         document.getElementById('friend-time').textContent = friendTimeLeft + " секунд до выдачи"; // Обновляем время до выдачи
@@ -160,3 +155,4 @@ function toggleTheme() {
         isDarkTheme = true;
     }
 }
+
