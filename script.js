@@ -8,6 +8,11 @@ let minerActive = false; // Флаг активности шахтера
 let friendActive = false; // Флаг активности друга
 let minerInterval; // Таймер для шахтера
 let friendInterval; // Таймер для друга
+let rankProgress = 0; // Прогресс ранга
+let rankThresholds = [1000, 5000, 20000, 50000]; // Пороговые значения для повышения ранга
+let currentRankIndex = 0; // Индекс текущего ранга
+let minerTimeLeft = 30; // Время до выдачи от шахтера
+let friendTimeLeft = 90; // Время до выдачи от друга
 
 // Показать кликер
 function showClicker() {
@@ -25,6 +30,25 @@ function showShop() {
 function clickCoin() {
     coins += clickMultiplier; // Увеличиваем количество монет
     document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+    updateRankProgress(clickMultiplier); // Обновляем прогресс ранга
+}
+
+// Обновление прогресса ранга
+function updateRankProgress(amount) {
+    rankProgress += amount; // Увеличиваем прогресс
+    document.getElementById('rank-progress').style.width = (rankProgress / rankThresholds[currentRankIndex] * 100) + '%'; // Обновляем полосу прогресса
+
+    // Проверка на повышение ранга
+    if (rankProgress >= rankThresholds[currentRankIndex]) {
+        currentRankIndex++; // Увеличиваем индекс текущего ранга
+        if (currentRankIndex < rankThresholds.length) {
+            alert('Поздравляем! Вы повысили ранг!');
+        } else {
+            alert('Вы достигли максимального ранга!');
+        }
+        rankProgress = 0; // Сбрасываем прогресс
+        document.getElementById('rank-progress').style.width = '0%'; // Сбрасываем полосу
+    }
 }
 
 // Покупка улучшения кликов
@@ -55,10 +79,17 @@ function buyMiner() {
 
 // Таймер для шахтера
 function startMinerTimer() {
+    minerTimeLeft = 30; // Сбрасываем время
     minerInterval = setInterval(() => {
-        coins += 1500; // Шахтер дает 1500 монет
-        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
-    }, 30000); // Каждые 30 секунд
+        minerTimeLeft--;
+        document.getElementById('miner-time').textContent = minerTimeLeft + " секунд до выдачи"; // Обновляем время до выдачи
+
+        if (minerTimeLeft <= 0) {
+            coins += 1500; // Шахтер дает 1500 монет
+            document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+            minerTimeLeft = 30; // Сбрасываем время
+        }
+    }, 1000); // Каждую секунду
 }
 
 // Покупка РК
@@ -87,10 +118,17 @@ function buyFriend() {
 
 // Таймер для друга
 function startFriendTimer() {
+    friendTimeLeft = 90; // Сбрасываем время
     friendInterval = setInterval(() => {
-        coins += 5000; // Друг дает 5000 монет
-        document.getElementById('coins').textContent = coins; // Обновляем отображение монет
-    }, 90000); // Каждые 1.5 минуты
+        friendTimeLeft--;
+        document.getElementById('friend-time').textContent = friendTimeLeft + " секунд до выдачи"; // Обновляем время до выдачи
+
+        if (friendTimeLeft <= 0) {
+            coins += 5000; // Друг дает 5000 монет
+            document.getElementById('coins').textContent = coins; // Обновляем отображение монет
+            friendTimeLeft = 90; // Сбрасываем время
+        }
+    }, 1000); // Каждую секунду
 }
 
 // Загрузка кликера
