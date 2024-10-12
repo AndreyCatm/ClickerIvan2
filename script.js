@@ -82,28 +82,32 @@ function buyFriend() {
 // Таймер для шахтера (выдача 1.5K монет каждые 30 секунд)
 function startMinerTimer() {
     let minerTime = 30;
-    let minerInterval = setInterval(function() {
-        if (minerTime <= 0) {
-            coins += 1500;
-            document.getElementById('coins').textContent = coins;
-            minerTime = 30; // Сброс таймера
+    setInterval(function() {
+        if (minerActive) {
+            if (minerTime <= 0) {
+                coins += 1500;
+                document.getElementById('coins').textContent = coins;
+                minerTime = 30; // Сброс таймера
+            }
+            document.getElementById('miner-timer').textContent = `⛏ Шахтер: ${minerTime}с`;
+            minerTime--;
         }
-        document.getElementById('miner-timer').textContent = `⛏ Шахтер: ${minerTime}с`;
-        minerTime--;
     }, 1000);
 }
 
 // Таймер для друга (выдача 5K монет каждые 1.5 минуты)
 function startFriendTimer() {
     let friendTime = 90;
-    let friendInterval = setInterval(function() {
-        if (friendTime <= 0) {
-            coins += 5000;
-            document.getElementById('coins').textContent = coins;
-            friendTime = 90; // Сброс таймера
+    setInterval(function() {
+        if (friendActive) {
+            if (friendTime <= 0) {
+                coins += 5000;
+                document.getElementById('coins').textContent = coins;
+                friendTime = 90; // Сброс таймера
+            }
+            document.getElementById('friend-timer').textContent = `👤 Друг: ${friendTime}с`;
+            friendTime--;
         }
-        document.getElementById('friend-timer').textContent = `👤 Друг: ${friendTime}с`;
-        friendTime--;
     }, 1000);
 }
 
@@ -145,4 +149,7 @@ function toggleTheme() {
         isDarkTheme = true;
     }
 }
+
+// Скрытие загрузчика после загрузки страницы
+window.onload = hideLoader;
 
